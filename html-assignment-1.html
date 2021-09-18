@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>Survey Form</title>
+</head>
+<body>
+    <form action="">
+        <label for="name">Enter your name: </label>
+        <input type="text" name="name" id="name" required>
+        <br>
+        <br>
+        <label for="email">Enter your email: </label>
+        <input type="email" name="email" id="email" required>
+        <br>
+        <br>
+        <label for="dob">Enter your Date-of-Birth: </label>
+        <input type="date" name="dob" id="dob" required>
+        <br>
+        <br>
+        Gender:
+        <input type="radio" name="gender" id="male" required>
+        <label for="male">Male</label>
+        <input type="radio" name="gender" id="female" required>
+        <label for="female">Female</label>
+        <input type="radio" name="gender" id="others" required>
+        <label for="others">Others</label>
+        <br>
+        <br>
+        Marital Status:
+        <input type="radio" name="mar" id="married" required>
+        <label for="married">Married</label>
+        <input type="radio" name="mar" id="unmarried" required>
+        <label for="unmarried">Unmarried</label>
+        <br>
+        <br>
+        Which political party do you support?:
+        <input type="radio" id="bjp" name="party">
+        <label for="bjp">BJP</label>
+        <input type="radio" id="inc" name="party">
+        <label for="inc">INC</label>
+        <input type="radio" id="rjd" name="party">
+        <label for="rjd">RJD</label>
+        <input type="radio" id="cpi" name="party">
+        <label for="cpi">CPI</label>
+        <br>
+        <br>
+        <label for="leader">Favourite political leader: </label>
+        <input type="text" name="leader" id="leader">
+        <br>
+        <br>
+        Which political party do you think will win this election?:
+        <input type="radio" id="bjp1" name="party1">
+        <label for="bjp1">BJP</label>
+        <input type="radio" id="inc1" name="party1">
+        <label for="inc1">INC</label>
+        <input type="radio" id="rjd1" name="party1">
+        <label for="rjd1">RJD</label>
+        <input type="radio" id="cpi1" name="party1">
+        <label for="cpi1">CPI</label>
+        <br>
+        <br>
+        <label for="card">Upload your Aadhar Card: </label>
+        <input type="file" id="card" name="card">
+        <br>
+        <br>
+        <label for="story">Tell us something about yourself: </label>
+        <br>
+        <textarea id="story" name="story" rows="5" cols="30"></textarea>
+        <br>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

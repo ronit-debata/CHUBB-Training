@@ -1,0 +1,36 @@
+1.
+CREATE TABLE users (name varchar(20), email varchar(20));
+CREATE TABLE codekata (name varchar(20), problems_solved int);
+CREATE TABLE attendance (name varchar(20), attendance int);
+CREATE TABLE topics (name varchar(20), topics_covered int);
+CREATE TABLE tasks (name varchar(20), tasks_done int);
+CREATE TABLE company_drives (name varchar(20), company_drives_attended int);
+CREATE TABLE mentors (mentor_name varchar(20), students assigned int);
+CREATE TABLE students_ativated_courses (name varchar(20), activated_course varchar(20));
+CREATE TABLE courses (name varchar(20), course varchar(20));
+
+2.
+INSERT INTO users VALUES ('Akanksha', 'akanksha@mail.com'), ('Arya', 'arya@mail.com'), ('Mohammed', 'mohammed@mail.com'), ('Ronit', 'ronit@mail.com'), ('Rajat', 'rajat@mail.com');
+INSERT INTO codekata VALUES ('Akanksha', '5'), ('Arya', '3'), ('Mohammed', '8'), ('Ronit', '10'), ('Rajat', '6');
+INSERT INTO attendance VALUES ('Akanksha', '15'), ('Arya', '13'), ('Mohammed', '18'), ('Ronit', '12'), ('Rajat', '16');
+INSERT INTO topics VALUES ('Akanksha', '2'), ('Arya', '3'), ('Mohammed', '5'), ('Ronit', '4'), ('Rajat', '6');
+INSERT INTO tasks VALUES ('Akanksha', '1'), ('Arya', '0'), ('Mohammed', '2'), ('Ronit', '3'), ('Rajat', '4');
+INSERT INTO company_drives VALUES ('Akanksha', '3'), ('Arya', '2'), ('Mohammed', '6'), ('Ronit', '5'), ('Rajat', '1');
+INSERT INTO mentors VALUES ('Prakash', '3'), ('Sushree', '4'), ('Anjali', '2'), ('Manoj', '5'), ('Suresh', '5');
+INSERT INTO students_ativated_courses VALUES ('Akanksha', 'SQL'), ('Arya', 'MongoDB'), ('Mohammed', 'JAVA'), ('Ronit', 'Angular'), ('Rajat', '.Net');
+INSERT INTO courses VALUES ('Akanksha', 'SQL, MongoDB'), ('Arya', 'MongoDB, SQL'), ('Mohammed', 'JAVA, SQL'), ('Ronit', 'Angular, MongoDB'), ('Rajat', '.Net, Angular');
+
+3.
+SELECT SUM(problems_solved) FROM codekata;
+
+4.
+SELECT company_drives_attended FROM company_drives WHERE name='Arya';
+
+5.
+
+
+6.
+SELECT mentor_name FROM mentors;
+
+7.
+SELECT students_assigned FROM mentors WHERE mentor_name='Anjali';

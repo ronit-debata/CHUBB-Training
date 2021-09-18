@@ -1,0 +1,36 @@
+1.
+SELECT name, image, video
+FROM ((movies
+INNER JOIN images ON movies.id = images.movie_id)
+INNER JOIN videos ON movies.id = videos.movie_id)
+WHERE name="Avengers";
+
+2.
+SELECT name, image, video, review
+FROM (((movies
+INNER JOIN images ON movies.id = images.movie_id)
+INNER JOIN videos ON movies.id = videos.movie_id)
+INNER JOIN reviews ON movies.id = reviews.movie_id)
+WHERE name="Avengers";
+
+3.
+SELECT artist, role
+FROM movies
+INNER JOIN cast ON movies.id = cast.movie_id
+WHERE name="Thor";
+
+4.
+SELECT username, review
+FROM user
+INNER JOIN reviews ON user.id = reviews.user_id
+WHERE username="Ronit";
+
+5.
+SELECT artist, skill
+FROM ((cast
+INNER JOIN skillref ON cast.id = skillref.artist_id)
+INNER JOIN skills ON skillref.skill_id = skills.id)
+WHERE artist="Chris";
+
+6.
+SELECT artist, role FROM cast WHERE artist="Brad";

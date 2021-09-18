@@ -1,0 +1,283 @@
+> db.movies.insertMany([
+...     {
+...         "name": "Iron Man",
+...         "genre": ["Action", "Sci-Fi"],
+...         "media": ["img1", "img2", "vid1"],
+...         "cast": [{"cast_id": 1, "role" : "Tony Stark"}, {"cast_id": 2, "role" : "Pepper Potts"}],
+...         "reviews": [{"user_id": 1, "review": "Great movie"}, {"user_id": 2, "review": "Amazing visuals"}]
+...     },
+...     {
+...         "name": "Thor",
+...         "genre": ["Action", "Adventure"],
+...         "media": ["img3", "img4", "vid2"],
+...         "cast": [{"cast_id": 3, "role" : "Thor"}, {"cast_id": 4, "role" : "Loki"}],
+...         "reviews": [{"user_id": 2, "review": "Brilliant story"}, {"user_id": 3, "review": "Well acted"}]
+...     },
+...     {
+...         "name": "Avengers",
+...         "genre": ["Action", "Adventure"],
+...         "media": ["img5", "img6", "vid3"],
+...         "cast": [{"cast_id": 1, "role" : "Tony Stark"}, {"cast_id": 3, "role" : "Thor"}],
+...         "reviews": [{"user_id": 1, "review": "Wonderful movie"}, {"user_id": 4, "review": "Nice ending"}]
+...     },
+...     {
+...         "name": "Doctor Strange",
+...         "genre": ["Action", "Adventure", "Fantasy"],
+...         "media": ["img7", "img8", "vid4"],
+...         "cast": [{"cast_id": 5, "role" : "Doctor Strange"}, {"cast_id": 6, "role" : "Wong"}],
+...         "reviews": [{"user_id": 5, "review": "Wonderful experience"}, {"user_id": 3, "review": "Nice visuals"}]
+...     }
+... ]);
+
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("613f6b69573daa338b1c2e93"),
+                ObjectId("613f6b69573daa338b1c2e94"),
+                ObjectId("613f6b69573daa338b1c2e95"),
+                ObjectId("613f6b69573daa338b1c2e96")
+        ]
+}
+
+
+> db.users.insertMany([
+...     {
+... "user_id": 1,
+... "name": "Erica",
+... "email": "aliquam.eros@rutrum.com"
+... },
+... {
+... "user_id": 2,
+... "name": "Demetria",
+... "email": "Nullam.ut.nisi@molestieintempus.org"
+... },
+... {
+... "user_id": 3,
+... "name": "Quentin",
+... "email": "Lorem.ipsum@ametrisusDonec.org"
+... },
+... {
+... "user_id": 4,
+... "name": "Bruno",
+... "email": "vel.nisl.Quisque@faucibus.org"
+... },
+... {
+... "user_id": 5,
+... "name": "Wilma",
+... "email": "Lorem.ipsum.dolor@augueut.org"
+... }
+... ]);
+
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("613f69ca573daa338b1c2e88"),
+                ObjectId("613f69ca573daa338b1c2e89"),
+                ObjectId("613f69ca573daa338b1c2e8a"),
+                ObjectId("613f69ca573daa338b1c2e8b"),
+                ObjectId("613f69ca573daa338b1c2e8c")
+        ]
+}
+
+
+> db.artists.insertMany([
+...     {
+...         "cast_id" :1,
+...         "name": "Robert Downey Jr",
+...         "skills": ["Acting", "Producing"]
+...     },
+...     {
+...         "cast_id" :2,
+...         "name": "Gweyneth Paltrow",
+...         "skills": ["Acting", "Singing"]
+...     },
+...     {
+...         "cast_id" :3,
+...         "name": "Chris Hemsworth",
+...         "skills": ["Acting"]
+...     },
+...     {
+...         "cast_id" :4,
+...         "name": "Tom Hiddleston",
+...         "skills": ["Acting", "Directing"]
+...     },
+...     {
+...         "cast_id" :5,
+...         "name": "Benedict Cumberbatch",
+...         "skills": ["Acting", "Singing"]
+...     },
+...     {
+...         "cast_id" :6,
+...         "name": "Benedict Wong",
+...         "skills": ["Acting"]
+...     }
+... ]);
+
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("613f69e2573daa338b1c2e8d"),
+                ObjectId("613f69e2573daa338b1c2e8e"),
+                ObjectId("613f69e2573daa338b1c2e8f"),
+                ObjectId("613f69e2573daa338b1c2e90"),
+                ObjectId("613f69e2573daa338b1c2e91"),
+                ObjectId("613f69e2573daa338b1c2e92")
+        ]
+}
+
+
+1.
+> db.movies.find({name:"Thor"},{_id:0,media:1});
+
+{ "media" : [ "img3", "img4", "vid2" ] }
+
+
+2.
+> db.movies.aggregate([{$match: {
+...   name:"Thor"
+... }}, {$project: {
+...   _id:0,
+...   media:1,
+...   reviews:{
+...     review:1
+...   }
+... }}]);
+
+{ "media" : [ "img3", "img4", "vid2" ], "reviews" : [ { "review" : "Brilliant story" }, { "review" : "Well acted" } ] }
+
+
+3.
+> db.movies.aggregate([
+...     {
+...         '$match': {
+...             'name': 'Iron Man'
+...         }
+...     }, {
+...         '$unwind': {
+...             'path': '$cast'
+...         }
+...     }, {
+...         '$lookup': {
+...             'from': 'artists',
+...             'localField': 'cast.cast_id',
+...             'foreignField': 'cast_id',
+...             'as': 'artist_name'
+...         }
+...     }, {
+...         '$unwind': {
+...             'path': '$artist_name'
+...         }
+...     }, {
+...         '$project': {
+...             '_id': 0,
+...             'artist_name': {
+...                 'name': 1
+...             },
+...             'cast': {
+...                 'role': 1
+...             }
+...         }
+...     }
+... ]);
+
+{ "cast" : { "role" : "Tony Stark" }, "artist_name" : { "name" : "Robert Downey Jr" } }
+{ "cast" : { "role" : "Pepper Potts" }, "artist_name" : { "name" : "Gweyneth Paltrow" } }
+
+
+4.
+> db.users.aggregate([
+...     {
+...         '$match': {
+...             'name': 'Erica'
+...         }
+...     }, {
+...         '$lookup': {
+...             'from': 'movies',
+...             'localField': 'user_id',
+...             'foreignField': 'reviews.user_id',
+...             'as': 'user_reviews'
+...         }
+...     }, {
+...         '$unwind': {
+...             'path': '$user_reviews'
+...         }
+...     }, {
+...         '$unwind': {
+...             'path': '$user_reviews.reviews'
+...         }
+...     }, {
+...         '$match': {
+...             'user_reviews.reviews.user_id': 1
+...         }
+...     }, {
+...         '$project': {
+...             '_id': 0,
+...             'name': 1,
+...             'user_reviews': {
+...                 'reviews': {
+...                     'review': 1
+...                 }
+...             }
+...         }
+...     }
+... ]);
+
+{ "name" : "Erica", "user_reviews" : { "reviews" : { "review" : "Great movie" } } }
+{ "name" : "Erica", "user_reviews" : { "reviews" : { "review" : "Wonderful movie" } } }
+
+
+5.
+> db.artists.find({name:"Robert Downey Jr"},{_id:0,name:1,skills:1});
+
+{ "name" : "Robert Downey Jr", "skills" : [ "Acting", "Producing" ] }
+
+
+6.
+> db.artists.aggregate([
+...     {
+...         '$match': {
+...             'name': 'Chris Hemsworth'
+...         }
+...     }, {
+...         '$lookup': {
+...             'from': 'movies',
+...             'localField': 'cast_id',
+...             'foreignField': 'cast.cast_id',
+...             'as': 'artist_role'
+...         }
+...     }, {
+...         '$unwind': {
+...             'path': '$artist_role'
+...         }
+...     }, {
+...         '$unwind': {
+...             'path': '$artist_role.cast'
+...         }
+...     }, {
+...         '$match': {
+...             'artist_role.cast.cast_id': 3
+...         }
+...     }, {
+...         '$project': {
+...             '_id': 0,
+...             'name': 1,
+...             'artist_role': {
+...                 'name': 1,
+...                 'cast': {
+...                     'role': 1
+...                 }
+...             }
+...         }
+...     }
+... ]);
+
+{ "name" : "Chris Hemsworth", "artist_role" : { "name" : "Thor", "cast" : { "role" : "Thor" } } }
+{ "name" : "Chris Hemsworth", "artist_role" : { "name" : "Avengers", "cast" : { "role" : "Thor" } } }
+
+
+
+
+
+
+
+
